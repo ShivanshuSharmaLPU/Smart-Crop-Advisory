@@ -1,1 +1,7 @@
 node_modules/
+.env
+backend/.env
+__pycache__/
+*.log
+.DS_Store
+Thumbs.db
