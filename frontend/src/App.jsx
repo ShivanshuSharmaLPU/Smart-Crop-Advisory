@@ -3,32 +3,40 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
-import Navbar from './components/Navbar';
+import FloatingNavbar from './components/ui/FloatingNavbar';
+import BackgroundGradient from './components/ui/BackgroundGradient';
 import { useAuth } from './context/AuthContext';
 
 const PrivateRoute = ({ children }) => {
     const { user, loading } = useAuth();
-    if (loading) return <div>Loading...</div>;
+    if (loading) return <div className="flex items-center justify-center min-h-screen text-white">Loading...</div>;
     return user ? children : <Navigate to="/login" />;
 };
 
 function App() {
     return (
         <Router>
-            <div className="min-h-screen bg-gray-50 flex flex-col">
-                <Navbar />
-                <div className="flex-grow container mx-auto px-4 py-8">
-                    <Routes>
-                        <Route path="/login" element={<Login />} />
-                        <Route path="/register" element={<Register />} />
-                        <Route path="/" element={
-                            <PrivateRoute>
-                                <Dashboard />
-                            </PrivateRoute>
-                        } />
-                    </Routes>
+            <BackgroundGradient>
+                <div className="min-h-screen flex flex-col relative z-10">
+                    {/* Show FloatingNavbar only - or we could condition it on login */}
+                    <FloatingNavbar />
+                    
+                    <div className="flex-grow">
+                        <Routes>
+                            <Route path="/login" element={<Login />} />
+                            <Route path="/register" element={<Register />} />
+                            <Route path="/" element={
+                                <PrivateRoute>
+                                    <Dashboard />
+                                </PrivateRoute>
+                            } />
+                             {/* Add placeholders for other nav items if they don't exist yet */}
+                            <Route path="/analytics" element={<div className="p-20 text-center text-white">Analytics Module Coming Soon</div>} />
+                            <Route path="/settings" element={<div className="p-20 text-center text-white">Settings Module Coming Soon</div>} />
+                        </Routes>
+                    </div>
                 </div>
-            </div>
+            </BackgroundGradient>
         </Router>
     );
 }

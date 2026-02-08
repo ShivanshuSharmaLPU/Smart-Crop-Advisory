@@ -27,11 +27,14 @@ router.get('/:location', async (req, res) => {
     } catch (err) {
         console.error("Weather API Error:", err.message);
         // Fallback to Mock Data if API fails (e.g. invalid key)
+        const currentHour = new Date().getHours();
+        const isNight = currentHour >= 18 || currentHour < 6;
+        
         res.json({
             temp: 24,
             humidity: 60,
-            description: 'Sunny (Mock)',
-            icon: '01d',
+            description: isNight ? 'Clear Night (Mock)' : 'Sunny (Mock)',
+            icon: isNight ? '01n' : '01d',
             city: req.params.location || 'Demo City'
         });
     }

@@ -24,8 +24,10 @@ const WeatherCard = ({ location }) => {
 
     if (!weather) return <div className="card animate-pulse h-40 flex items-center justify-center">Loading Weather...</div>;
 
+    const isNight = weather.icon?.includes('n');
+
     return (
-        <div className="card bg-gradient-to-br from-blue-500 to-blue-600 text-white border-none">
+        <div className={`card ${isNight ? 'bg-gradient-to-br from-indigo-900 to-purple-900' : 'bg-gradient-to-br from-blue-500 to-blue-600'} text-white border-none`}>
             <div className="flex justify-between items-start">
                 <div>
                     <h3 className="text-xl font-bold">{weather.city}</h3>
